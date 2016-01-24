@@ -11,6 +11,7 @@ This library has been added some features and utilities based on [android-Slidin
 ![SmartTabLayout Demo1][demo1_gif] ![SmartTabLayout Demo2][demo2_gif]
 ![SmartTabLayout Demo3][demo3_gif] ![SmartTabLayout Demo4][demo4_gif]
 ![SmartTabLayout Demo5][demo5_gif] ![SmartTabLayout Demo6][demo6_gif]
+![SmartTabLayout Demo7][demo7_gif]
 
 
 Try out the sample application on the Play Store.
@@ -25,13 +26,13 @@ Add the dependency to your build.gradle.
 
 ```
 dependencies {
-    compile 'com.ogaclejapan.smarttablayout:library:1.1.0@aar'
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.0@aar'
 
     //Optional: see how to use the utility.
-    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.1.0@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.0@aar'
 
     //Optional: see how to use the utility.
-    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.1.0@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.0@aar'
 }
 ```
 
@@ -45,21 +46,30 @@ This should usually be placed above the ViewPager it represents.
     android:layout_width="match_parent"
     android:layout_height="48dp"
     app:stl_indicatorAlwaysInCenter="false"
+    app:stl_indicatorWithoutPadding="false"
     app:stl_indicatorInFront="false"
     app:stl_indicatorInterpolation="smart"
+    app:stl_indicatorGravity="bottom"
     app:stl_indicatorColor="#40C4FF"
     app:stl_indicatorThickness="4dp"
+    app:stl_indicatorWidth="auto"
     app:stl_indicatorCornerRadius="2dp"
+    app:stl_overlineColor="#4D000000"
+    app:stl_overlineThickness="0dp"
     app:stl_underlineColor="#4D000000"
     app:stl_underlineThickness="1dp"
     app:stl_dividerColor="#4D000000"
     app:stl_dividerThickness="1dp"
+    app:stl_defaultTabBackground="?attr/selectableItemBackground"
     app:stl_defaultTabTextAllCaps="true"
     app:stl_defaultTabTextColor="#FC000000"
     app:stl_defaultTabTextSize="12sp"
     app:stl_defaultTabTextHorizontalPadding="16dp"
     app:stl_defaultTabTextMinWidth="0dp"
     app:stl_distributeEvenly="false"
+    app:stl_clickable="true"
+    app:stl_titleOffset="24dp"
+    app:stl_drawDecorationAfterTab="false"
     />
 
 <android.support.v4.view.ViewPager
@@ -94,6 +104,7 @@ viewPagerTab.setViewPager(viewPager);
 
 (Optional) If you use an OnPageChangeListener with your view pager you should set it in the widget rather than on the pager directly.
 
+
 ```java
 
 viewPagerTab.setOnPageChangeListener(mPageChangeListener);
@@ -117,17 +128,23 @@ There are several attributes you can set:
 | attr | description |
 |:---|:---|
 | stl_indicatorAlwaysInCenter | If set to true, active tab is always displayed in center (Like Newsstand google app), default false |
+| stl_indicatorWithoutPadding | If set to true, draw the indicator without padding of tab, default false |
 | stl_indicatorInFront | Draw the indicator in front of the underline, default false |
 | stl_indicatorInterpolation | Behavior of the indicator: 'linear' or 'smart' |
+| stl_indicatorGravity | Drawing position of the indicator: 'bottom' or 'top' or 'center', default 'bottom' |
 | stl_indicatorColor | Color of the indicator |
 | stl_indicatorColors | Multiple colors of the indicator, can set the color for each tab |
 | stl_indicatorThickness | Thickness of the indicator |
+| stl_indicatorWidth | Width of the indicator, default 'auto' |
 | stl_indicatorCornerRadius | Radius of rounded corner the indicator |
+| stl_overlineColor | Color of the top line |
+| stl_overlineThickness | Thickness of the top line |
 | stl_underlineColor | Color of the bottom line |
 | stl_underlineThickness | Thickness of the bottom line |
 | stl_dividerColor | Color of the dividers between tabs |
 | stl_dividerColors | Multiple colors of the dividers between tabs, can set the color for each tab |
 | stl_dividerThickness | Thickness of the divider |
+| stl_defaultTabBackground | Background drawable of each tab. In general it set the StateListDrawable |
 | stl_defaultTabTextAllCaps | If set to true, all tab titles will be upper case, default true |
 | stl_defaultTabTextColor | Text color of the tab that was included by default |
 | stl_defaultTabTextSize | Text size of the tab that was included by default |
@@ -136,7 +153,9 @@ There are several attributes you can set:
 | stl_customTabTextLayoutId | Layout ID defined custom tab. If you do not specify a layout, use the default tab |
 | stl_customTabTextViewId | Text view ID in a custom tab layout. If you do not define with customTabTextLayoutId, does not work |
 | stl_distributeEvenly | If set to true, each tab is given the same weight, default false |
-
+| stl_clickable | If set to false, disable the selection of a tab click, default true |
+| stl_titleOffset | If set to 'auto_center', the slide position of the tab in the middle it will keep to the center. If specify a dimension it will be offset from the left edge, default 24dp |
+| stl_drawDecorationAfterTab | Draw the decoration(indicator and lines) after drawing of tab, default false |
 
 *__Notes:__ Both 'stl_indicatorAlwaysInCenter' and 'stl_distributeEvenly' if it is set to true, it will throw UnsupportedOperationException.*
 
@@ -176,10 +195,10 @@ public class SmartTabLayout extends HorizontalScrollView {
 
 # How to use the utility
 
-Utility has two types available to suit the Android support library.
+Utility has two types available to suit the Android support library.
 
-* utils-v4 library contains the PagerAdapter implementation class for android.support.v4.app.Fragment.
-* utils-v13 library contains the PagerAdapter implementation class for android.app.Fragment.
+* utils-v4 library contains the PagerAdapter implementation class for _android.support.v4.app.Fragment_
+* utils-v13 library contains the PagerAdapter implementation class for _android.app.Fragment_
 
 The two libraries have different Android support libraries that depend,
 but implemented functionality is the same.
@@ -190,7 +209,7 @@ but implemented functionality is the same.
 
 ViewPagerItemAdapter adapter = new ViewPagerItemAdapter(ViewPagerItems.with(this)
         .add(R.string.title, R.layout.page)
-        .add(ViewPagerItem.of("title", R.layout.page))
+        .add("title", R.layout.page)
         .create());
 
 viewPager.setAdapter(adapter);
@@ -221,7 +240,7 @@ FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
         getSupportFragmentManager(), FragmentPagerItems.with(this)
         .add(R.string.title, PageFragment.class),
         .add(R.string.title, WithArgumentsPageFragment.class, new Bundler().putString("key", "value").get()),
-        .add(FragmentPagerItem.of("title", PageFragment.class))
+        .add("title", PageFragment.class)
         .create());
 
 viewPager.setAdapter(adapter);
@@ -237,11 +256,12 @@ public void onPageSelected(int position) {
 
 ```
 
+*__Notes:__ If using fragment inside a ViewPager, Must be use [Fragment#getChildFragmentManager()](http://developer.android.com/reference/android/support/v4/app/Fragment.html#getChildFragmentManager).*
 
 # Apps Using SmartTabLayout
 
 * [Qiitanium][qiitanium]
-
+* [Ameba](https://play.google.com/store/apps/details?id=jp.ameba&hl=ja)
 
 # LICENSE
 
@@ -268,7 +288,8 @@ limitations under the License.
 [demo4_gif]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/demo4.gif
 [demo5_gif]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/demo5.gif
 [demo6_gif]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/demo6.gif
-[demo_app]: https://play.google.com/store/apps/details?id=com.ogaclejapan.smarttablayout.demo
+[demo7_gif]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/demo7.gif
+[demo_app]: https://play.google.com/store/apps/details?id=com.ogaclejapan.smarttablayout.demo&referrer=utm_source%3Dgithub
 [demo_icon]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/icon.png
 [googleplay_store_badge]: https://developer.android.com/images/brand/en_generic_rgb_wo_60.png
 [maven_central_badge_svg]: https://maven-badges.herokuapp.com/maven-central/com.ogaclejapan.smarttablayout/library/badge.svg?style=flat
