@@ -18,6 +18,7 @@ Try out the sample application on the Play Store.
 
 [![Get it on Google Play][googleplay_store_badge]][demo_app]
 
+
 # Usage
 
 _(For a working implementation of this project see the demo/ folder.)_
@@ -26,13 +27,13 @@ Add the dependency to your build.gradle.
 
 ```
 dependencies {
-    compile 'com.ogaclejapan.smarttablayout:library:1.6.0@aar'
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 
     //Optional: see how to use the utility.
-    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.0@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
 
     //Optional: see how to use the utility.
-    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.0@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'
 }
 ```
 
@@ -263,6 +264,9 @@ public void onPageSelected(int position) {
 * [Qiitanium][qiitanium]
 * [Ameba](https://play.google.com/store/apps/details?id=jp.ameba&hl=ja)
 
+# Looking for iOS ?
+ Check [WormTabStrip](https://github.com/EzimetYusup/WormTabStrip) out.
+ 
 # LICENSE
 
 ```
@@ -291,7 +295,7 @@ limitations under the License.
 [demo7_gif]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/demo7.gif
 [demo_app]: https://play.google.com/store/apps/details?id=com.ogaclejapan.smarttablayout.demo&referrer=utm_source%3Dgithub
 [demo_icon]: https://raw.githubusercontent.com/ogaclejapan/SmartTabLayout/master/art/icon.png
-[googleplay_store_badge]: https://developer.android.com/images/brand/en_generic_rgb_wo_60.png
+[googleplay_store_badge]: http://www.android.com/images/brand/get_it_on_play_logo_large.png
 [maven_central_badge_svg]: https://maven-badges.herokuapp.com/maven-central/com.ogaclejapan.smarttablayout/library/badge.svg?style=flat
 [maven_central_badge_app]: https://maven-badges.herokuapp.com/maven-central/com.ogaclejapan.smarttablayout/library
 [android_arsenal_badge_svg]: https://img.shields.io/badge/Android%20Arsenal-SmartTabLayout-brightgreen.svg?style=flat
