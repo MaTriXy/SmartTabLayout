@@ -1,3 +1,15 @@
+# Version 2.0.0
+
+* Migrate to androidx 1.0.0
+* Remove util-v13 library
+
+# Version 1.7.0
+
+* Update support library version to 28.0.0
+* Change target sdk version to 28
+* Change min sdk version to 14
+* Deprecated util-v13 library
+
 # Version 1.6.1
 
 * Fixed issue with center last item in always in center tablayout #160
